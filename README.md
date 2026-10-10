@@ -1,19 +1,24 @@
 <div align="center">
 
-# ClarityMed AI
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,12,24&height=260&section=header&text=ClarityMed%20AI&fontSize=80&fontAlignY=38&animation=fadeIn&desc=Clinical%20decision%20support%20that%20shows%20how%20sure%20the%20model%20really%20is&descSize=20&descAlignY=60&fontColor=ffffff" alt="ClarityMed AI banner" width="100%"/>
 
-**Clinical decision support that shows how sure the model really is.**
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=900&color=1D6FFF&center=true&vCenter=true&width=820&lines=Chest+X-ray+%E2%80%A2+Brain+MRI+%E2%80%A2+Symptom+Checker;Explainable+Grad-CAM+heatmaps;Calibration-audited+confidence;Uncertainty-aware+%22needs+review%22+band;One-click+PDF+session+report" alt="Typing animation"/>
 
-Chest X-ray • Brain MRI • Symptom checker • Explainable heatmaps • Calibration-audited confidence • One-click PDF report
+<br/>
 
-![Status](https://img.shields.io/badge/status-research%20prototype-1d6fff?style=flat-square)
-![Not a medical device](https://img.shields.io/badge/medical%20use-not%20a%20medical%20device-d63b2f?style=flat-square)
+![Status](https://img.shields.io/badge/status-research%20prototype-1d6fff?style=for-the-badge)
+![Not a medical device](https://img.shields.io/badge/medical%20use-not%20a%20medical%20device-d63b2f?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-1d6fff?style=for-the-badge)
+
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.11-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
 ![Gradio](https://img.shields.io/badge/Gradio-6.27-F97316?style=flat-square)
 ![Explainability](https://img.shields.io/badge/explainability-Grad--CAM-0a0f1a?style=flat-square)
 ![Calibration](https://img.shields.io/badge/calibration-ECE%20audited-0a0f1a?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-1d6fff?style=flat-square)
+
+<br/>
+
+### 🎬 [Watch the Demo Video](GOOGLE_DRIVE_VIDEO_LINK_HERE) &nbsp;•&nbsp; 🖼️ [See Screenshots](#demo-and-screenshots) &nbsp;•&nbsp; 📊 [Results](#results) &nbsp;•&nbsp; 🚀 [Quick Start](#quick-start)
 
 </div>
 
@@ -22,23 +27,24 @@ Chest X-ray • Brain MRI • Symptom checker • Explainable heatmaps • Calib
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [The Problem](#the-problem)
-3. [Our Approach](#our-approach)
-4. [System Architecture](#system-architecture)
-5. [Modules](#modules)
-6. [Uncertainty Policy](#uncertainty-policy)
-7. [Results](#results)
-8. [Literature and Background](#literature-and-background)
-9. [Experiment Log](#experiment-log)
-10. [Features](#features)
-11. [Repository Structure](#repository-structure)
-12. [Quick Start](#quick-start)
-13. [Limitations and Ethics](#limitations-and-ethics)
-14. [Roadmap](#roadmap)
-15. [References](#references)
-16. [Acknowledgements](#acknowledgements)
-17. [License and Disclaimer](#license-and-disclaimer)
-18. [Author](#author)
+2. [Demo and Screenshots](#demo-and-screenshots)
+3. [The Problem](#the-problem)
+4. [Our Approach](#our-approach)
+5. [System Architecture](#system-architecture)
+6. [Modules](#modules)
+7. [Uncertainty Policy](#uncertainty-policy)
+8. [Results](#results)
+9. [Literature and Background](#literature-and-background)
+10. [Experiment Log](#experiment-log)
+11. [Features](#features)
+12. [Repository Structure](#repository-structure)
+13. [Quick Start](#quick-start)
+14. [Limitations and Ethics](#limitations-and-ethics)
+15. [Roadmap](#roadmap)
+16. [References](#references)
+17. [Acknowledgements](#acknowledgements)
+18. [License and Disclaimer](#license-and-disclaimer)
+19. [Author](#author)
 
 ---
 
@@ -56,6 +62,75 @@ Every result is shown with its **raw model score**, a **confidence level**, and 
 
 > [!IMPORTANT]
 > ClarityMed is a **research prototype**, not a diagnostic system. It has not been clinically validated. Do not use it to make medical decisions and do not enter real patient information.
+
+## Demo and Screenshots
+
+### 🎬 Video Walkthroughs
+
+<div align="center">
+
+| 🎥 Full Demo | 🔗 LinkedIn Video 1 | 🔗 LinkedIn Video 2 | 🔗 LinkedIn Video 3 |
+|:---:|:---:|:---:|:---:|
+| [**Google Drive**](GOOGLE_DRIVE_VIDEO_LINK_HERE) | [**Watch on LinkedIn**](https://lnkd.in/p/dx_ppQc2) | [**Watch on LinkedIn**](https://lnkd.in/p/dXnfc-N8) | [**Watch on LinkedIn**](https://lnkd.in/p/dTVYBd8n) |
+
+</div>
+
+### 🖼️ Screenshots
+
+**1. Home and patient information form**
+
+<div align="center">
+  <img src="assets/img_one.png" alt="ClarityMed AI home screen with patient information form" width="90%"/>
+</div>
+
+<br/>
+
+**2. Symptom checker**
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%"><img src="assets/img_three.png" alt="Symptom checker showing a low-confidence result" width="100%"/><br/><sub><b>Symptom input and result</b></sub></td>
+<td align="center" width="50%"><img src="assets/img_two.png" alt="Symptom checker second result with plain-language explanation" width="100%"/><br/><sub><b>Another case, with plain-language explanation</b></sub></td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+**3. Chest X-ray module (DenseNet-121 + Grad-CAM)**
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%"><img src="assets/img_five.png" alt="Chest X-ray upload screen" width="100%"/><br/><sub><b>Upload a chest X-ray</b></sub></td>
+<td align="center" width="50%"><img src="assets/img_six.png" alt="Chest X-ray result with Grad-CAM heatmap and confidence meter" width="100%"/><br/><sub><b>Result with Grad-CAM heatmap</b></sub></td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+**4. Brain MRI module (ResNet-50 + Grad-CAM)**
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%"><img src="assets/img_eight.png" alt="Brain MRI input with analyze button and result" width="100%"/><br/><sub><b>Upload a brain MRI slice</b></sub></td>
+<td align="center" width="50%"><img src="assets/img_seven.png" alt="Brain MRI result with Grad-CAM heatmap" width="100%"/><br/><sub><b>Result with Grad-CAM heatmap</b></sub></td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+**5. One-click PDF session report**
+
+<div align="center">
+  <img src="assets/img_four.png" alt="PDF report generation screen" width="90%"/>
+</div>
+
+> Screenshots show a research prototype using sample inputs. Scores are raw model outputs, not calibrated probabilities.
 
 ## The Problem
 
@@ -210,7 +285,7 @@ ClarityMed sits at the intersection of four lines of work. It does not claim to 
 
 ## Experiment Log
 
-ClarityMed was developed as a public series of small, evidence-driven experiments.
+ClarityMed was developed as a public series of small, evidence-driven experiments, shared as LinkedIn video posts.
 
 | # | Experiment | Question | Status |
 |---|---|---|---|
@@ -238,6 +313,7 @@ claritymed/
 ├── requirements.txt                # Pinned dependencies
 ├── README.md
 ├── LICENSE
+├── assets/                         # README screenshots (img_one ... img_eight)
 ├── experiments/
 │   └── exp03_calibration_audit.py  # Reliability diagrams, ECE, temperature scaling
 └── model/                          # NOT stored in this repository (see Quick Start)
@@ -325,4 +401,12 @@ Code is released under the [MIT License](LICENSE). Datasets and trained weights 
 
 ## Author
 
-**Aila Nasir** · Healthcare AI · [GitHub](https://github.com/ailanasirai) · [LinkedIn](https://www.linkedin.com/in/aila-nasir)
+<div align="center">
+
+**Aila Nasir** · Healthcare AI
+
+[GitHub](https://github.com/ailanasirai) &nbsp;•&nbsp; [LinkedIn](https://www.linkedin.com/in/aila-nasir)
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,12,24&height=120&section=footer" alt="footer" width="100%"/>
+
+</div>
