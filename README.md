@@ -18,7 +18,7 @@
 
 <br/>
 
-### 🎬 [Watch the Demo Video](GOOGLE_DRIVE_VIDEO_LINK_HERE) &nbsp;•&nbsp; 🖼️ [See Screenshots](#demo-and-screenshots) &nbsp;•&nbsp; 📊 [Results](#results) &nbsp;•&nbsp; 🚀 [Quick Start](#quick-start)
+### 🎬 [Watch the Demo Video](https://drive.google.com/file/d/1V_Ikm_65UOZ2cvOqgIXJPkbEV_hj5Iwd/view?usp=sharing) &nbsp;•&nbsp; 🖼️ [See Screenshots](#demo-and-screenshots) &nbsp;•&nbsp; 📊 [Results](#results) &nbsp;•&nbsp; 🚀 [Quick Start](#quick-start)
 
 </div>
 
@@ -71,7 +71,7 @@ Every result is shown with its **raw model score**, a **confidence level**, and 
 
 | 🎥 Full Demo | 🔗 LinkedIn Video 1 | 🔗 LinkedIn Video 2 | 🔗 LinkedIn Video 3 |
 |:---:|:---:|:---:|:---:|
-| [**Google Drive**](https://drive.google.com/file/d/1V_Ikm_65UOZ2cvOqgIXJPkbEV_hj5Iwd/view?usp=sharing)| [**Watch on LinkedIn**](https://lnkd.in/p/dx_ppQc2) | [**Watch on LinkedIn**](https://lnkd.in/p/dXnfc-N8) | [**Watch on LinkedIn**](https://lnkd.in/p/dTVYBd8n) |
+| [**Google Drive**](https://drive.google.com/file/d/1V_Ikm_65UOZ2cvOqgIXJPkbEV_hj5Iwd/view?usp=sharing) | [**Watch on LinkedIn**](https://lnkd.in/p/dx_ppQc2) | [**Watch on LinkedIn**](https://lnkd.in/p/dXnfc-N8) | [**Watch on LinkedIn**](https://lnkd.in/p/dTVYBd8n) |
 
 </div>
 
