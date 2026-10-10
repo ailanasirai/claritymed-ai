@@ -1,4 +1,4 @@
-# ClarityMed AI - Hugging Face Space entrypoint (app.py)
+# ClarityMed AI - Gradio app (Hugging Face Space entrypoint).
 # Research prototype for clinical decision support. Not a diagnostic system.
 import os, json, hashlib
 import numpy as np
@@ -9,11 +9,11 @@ import torch.nn.functional as F
 from torchvision import models, transforms
 import joblib
 
-# Free Hugging Face accounts only get ZeroGPU hardware. We never request a GPU: all inference runs on CPU.
+# All inference runs on CPU; no GPU is requested.
 device = torch.device("cpu")
 
-# ZeroGPU refuses to start a Space with no GPU function declared. This no-op is never called
-# (so it uses no GPU quota). On Colab / local machines the `spaces` package does not exist.
+# ZeroGPU Spaces require a declared GPU function. This no-op is never called.
+# The `spaces` package does not exist on Colab or local machines.
 try:
     import spaces
 
@@ -22,6 +22,7 @@ try:
         return None
 except ImportError:
     pass
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "model")
 
@@ -31,7 +32,8 @@ CHEST_CONFIG  = os.path.join(MODEL_DIR, "chest_xray_config.json")
 TEXT_MODEL    = os.path.join(MODEL_DIR, "symptom2disease_model.joblib")
 TEXT_VECTOR   = os.path.join(MODEL_DIR, "symptom2disease_vectorizer.joblib")
 
-BRAIN_CLASSES = ["glioma", "meningioma", "notumor", "pituitary"]   # ImageFolder (alphabetical) order used in training
+# Alphabetical (ImageFolder) order used in training
+BRAIN_CLASSES = ["glioma", "meningioma", "notumor", "pituitary"]
 
 def file_tag(path):
     h = hashlib.sha256()
@@ -40,7 +42,7 @@ def file_tag(path):
             h.update(chunk)
     return h.hexdigest()[:8]
 
-# Same preprocessing as training/validation (224x224, ImageNet normalization)
+# Same preprocessing as training: 224x224, ImageNet normalization
 val_transforms = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -110,9 +112,10 @@ from datetime import datetime
 from PIL import Image as PILImage
 import google.generativeai as genai
 
-# ============ GEMINI SETUP (key code mein NAHI, secrets mein) ============
-# Colab: left sidebar -> key icon (Secrets) -> Add new secret -> Name: GEMINI_API_KEY -> Value: nayi key -> Notebook access ON
-# Hugging Face Spaces: Settings -> Variables and secrets -> New secret -> GEMINI_API_KEY
+# ============ GEMINI SETUP ============
+# The API key is never stored in code.
+# Colab: add GEMINI_API_KEY under Secrets and enable notebook access.
+# Hugging Face Spaces: add GEMINI_API_KEY under Settings -> Variables and secrets.
 try:
     from google.colab import userdata
     GEMINI_API_KEY = userdata.get("GEMINI_API_KEY")
@@ -121,7 +124,7 @@ except Exception:
     GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
     IN_COLAB = False
 
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")  # agar explanation box mein hamesha fallback aaye to ye naam check karo
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 gemini_model = None
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
@@ -147,8 +150,8 @@ medical advice. Reassure them a doctor will review this. Avoid alarming language
         return FALLBACK_TEXT
 
 # ============ DECISION BANDS (chest X-ray) ============
-# REVIEW_LOW: is se neeche aur threshold se upar ke beech "needs review" band.
-# Experiment 03 ke baad ye value validation set par tune karo, test par nahi.
+# Probabilities between REVIEW_LOW and the saved threshold are shown as "needs review".
+# Tune this on the validation set, not the test set.
 REVIEW_LOW = 0.50
 
 # ============ CSS: BLUE + BLACK ============
@@ -257,11 +260,11 @@ def save_overlay(overlay):
 def add_log(log, entry):
     return (list(log or []) + [entry])[-12:]
 
-# ============ FULL SESSION PDF (blue + black) ============
+# ============ SESSION PDF REPORT (blue + black) ============
 BLACK, BLUE, BLUE_SOFT, GREY, RISK, AMBER = (10, 15, 26), (29, 111, 255), (230, 239, 255), (89, 101, 124), (214, 59, 47), (183, 121, 31)
 
 def pdf_safe(text):
-    # Helvetica sirf latin-1 support karta hai; Gemini ke curly quotes / Urdu text se crash na ho.
+    # Helvetica supports Latin-1 only; replace other characters to avoid crashes.
     return str(text).encode("latin-1", "replace").decode("latin-1")
 
 class ReportPDF(FPDF):
@@ -283,14 +286,14 @@ def make_full_report(name, age, phone, log):
     pdf.set_font("Helvetica", "", 9); pdf.set_text_color(*GREY)
     pdf.cell(0, 6, pdf_safe(f"Report ID: CM-{report_id}   |   Generated: {datetime.now().strftime('%d %B %Y, %H:%M')}"), ln=True)
     pdf.ln(2)
-    # patient card
+    # Patient card
     y = pdf.get_y(); pdf.set_fill_color(*BLUE_SOFT); pdf.rect(10, y, 190, 26, "F")
     pdf.set_fill_color(*BLUE); pdf.rect(10, y, 2, 26, "F")
     pdf.set_xy(16, y + 3); pdf.set_font("Helvetica", "B", 12); pdf.set_text_color(*BLACK); pdf.cell(0, 6, "Patient information", ln=True)
     pdf.set_font("Helvetica", "", 10.5); pdf.set_x(16)
     pdf.cell(80, 7, pdf_safe(f"Name: {name}")); pdf.cell(40, 7, pdf_safe(f"Age: {age}")); pdf.cell(0, 7, pdf_safe(f"Contact: {phone}"), ln=True)
     pdf.set_y(y + 32)
-    # summary table
+    # Summary table
     pdf.set_font("Helvetica", "B", 13); pdf.set_text_color(*BLACK); pdf.cell(0, 8, "Summary of analyses explored", ln=True)
     pdf.set_fill_color(*BLACK); pdf.set_text_color(255, 255, 255); pdf.set_font("Helvetica", "B", 9.5)
     for w, t in [(38, "Module"), (42, "Result"), (48, "Model score"), (62, "Status")]:
@@ -304,7 +307,7 @@ def make_full_report(name, age, phone, log):
         pdf.set_text_color(*col); pdf.set_font("Helvetica", "B", 9.5)
         pdf.cell(62, 8, pdf_safe("  " + e["status"]), fill=True); pdf.set_font("Helvetica", "", 9.5); pdf.ln(8)
     pdf.ln(4)
-    # detail per module
+    # Detail section per module
     for e in log:
         if pdf.get_y() > 200: pdf.add_page()
         pdf.set_font("Helvetica", "B", 12); pdf.set_text_color(*BLUE); pdf.cell(0, 8, pdf_safe(e["module"]), ln=True)
@@ -321,7 +324,7 @@ def make_full_report(name, age, phone, log):
         pdf.set_x(text_x); pdf.set_font("Helvetica", "", 10); pdf.set_text_color(*BLACK)
         pdf.multi_cell(190 - (text_x - 10), 5.5, pdf_safe(e["explanation"]))
         pdf.set_y(max(pdf.get_y(), y0 + (40 if text_x > 10 else 0)) + 6)
-    # next steps + disclaimer
+    # Next steps and disclaimer
     if pdf.get_y() > 235: pdf.add_page()
     any_flag = any(e["state"] in ("risk", "review") for e in log)
     pdf.set_font("Helvetica", "B", 12); pdf.set_text_color(*BLACK); pdf.cell(0, 8, "Recommended next steps", ln=True)
@@ -344,7 +347,7 @@ def generate_report(name, age, phone, log):
         return None, "⚠️ Run at least one analysis first, then generate the report."
     return make_full_report(name, age, phone, log), "✅ Report ready. Download it below."
 
-# ============ INFERENCE (model logic unchanged) ============
+# ============ INFERENCE ============
 def chest_xray_interface(image, name, age, phone, log):
     valid, msg = validate_patient_info(name, age, phone)
     if not valid: return None, msg, log
